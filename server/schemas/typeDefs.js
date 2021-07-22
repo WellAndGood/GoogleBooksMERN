@@ -24,14 +24,19 @@ const typeDefs = gql`
     }
 
     type Query {
-        me: User
+        me: User,
+        book: [Book]
+    }
+
+    type Mutation {
+        addUser(username: String!, email: String!, password: String!): User
     }
 `
 
+// addUser should return Auth instead of User (User is for testing)
 
-// type Mutation {
 //     login(email: String!, password: String!): Auth
-//     addUser(username: String!, email: String!, password: String!): Auth
+//      addUser(username: String!, email: String!, password: String!): Auth
 //     saveBook(input: Book): User
 //     removeBook(bookId: String!): User
 
