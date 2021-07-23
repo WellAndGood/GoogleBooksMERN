@@ -46,7 +46,7 @@ const resolvers = {
             throw new AuthenticationError('You need to be logged in!')
         },
 
-        login: async (parent, args) => {
+        login: async (parent, {email, password}) => {
             // Look up the user by the provided email address. Since the `email` field is unique, we know that only one person will exist with that email
             const user = await User.findOne({ email });
       

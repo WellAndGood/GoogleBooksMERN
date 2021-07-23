@@ -5,6 +5,7 @@ const typeDefs = gql`
         _id: ID!
         username: String!
         email: String!
+        password: String!
         bookCount: Int
         savedBooks: [Book]
     }
@@ -20,7 +21,7 @@ const typeDefs = gql`
 
     type Auth {
         token: String!
-         user: User
+        user: User
     }
 
     type Query {
@@ -30,16 +31,14 @@ const typeDefs = gql`
 
     type Mutation {
         createUser(username: String!, email: String!, password: String!): Auth
+
         saveBook(bookId: String!, authors: [String], description: String!, title: String!, image: String!, link: String!): User
+
         removeBook(bookId: String!): User
+
         login(email: String!, password: String!): Auth
-        
+
     }
 `
-
-// addUser should return Auth instead of User (User is for testing)
-
-
-//     
 
 module.exports = typeDefs;

@@ -1,8 +1,9 @@
 // see SignupForm.js for comments
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-
-import { loginUser } from '../utils/API';
+import { useMutation, useQuery } from '@apollo/client';
+import { LOGIN } from '../utils/mutations';
+// import { loginUser } from '../utils/API';
 import Auth from '../utils/auth';
 
 const LoginForm = () => {
@@ -15,6 +16,9 @@ const LoginForm = () => {
     setUserFormData({ ...userFormData, [name]: value });
   };
 
+  // Declare the const variable, value is the result of the mutation 'LOGIN' 
+  const [loginUser, { error }] = useMutation(LOGIN);
+  
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -26,13 +30,21 @@ const LoginForm = () => {
     }
 
     try {
-      const response = await loginUser(userFormData);
+      // The loginUser function is now based on mutation instead of the API/Utils
+      const { data } = await loginUser({
+        variables: { ...userFormData }
+      })
+      
+      // const response = await loginUser(userFormData);
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+      // if (!response.ok) {
+      //   throw new Error('something went wrong!');
+      // }
 
-      const { token, user } = await response.json();
+      // const { token, user } = await response.json();
+      
+      const { token, user } = data
+
       console.log(user);
       Auth.login(token);
     } catch (err) {
