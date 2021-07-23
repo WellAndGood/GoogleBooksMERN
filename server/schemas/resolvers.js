@@ -5,12 +5,20 @@ const { signToken } = require('../utils/auth');
 const resolvers = {
     Query: {
         // get all books
-        me: async () => {
+        users: async () => {
           return User.find({});
         },
-        book: async() => {
-            return Book.find({})
+
+        me: async (parent, args, context) => {
+          if (context.user) {
+            return User.findOne({_id: context.user._id});
+          }
         }
+
+        // // Book is not an object?
+        // book: async() => {
+        //     return Book.find({})
+        // }
       },
     Mutation: {
         createUser: async ( parent, args) => {
@@ -28,9 +36,9 @@ const resolvers = {
                     {new: true, runValidators: true}
                 )
                 console.log(updateUser)
-                return updateUser    
-        
+                return updateUser
             }
+            throw new AuthenticationError("Only logged in users can keep a book list.")
         },
 
         // Updating a user's set of 'savedBooks' based on the book's ID
