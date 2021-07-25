@@ -49,7 +49,9 @@ const SignupForm = () => {
       // }
 
       // const { token, user } = await response.json();
-      Auth.login(data.addUser.token);
+      if (data.createUser.token) {
+        Auth.login(data.createUser.token);
+      }
     } catch (err) {
       console.error(err);
       setShowAlert(true);
